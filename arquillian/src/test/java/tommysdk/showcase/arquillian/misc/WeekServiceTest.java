@@ -28,7 +28,7 @@ public class WeekServiceTest {
     WeekService service;
 
     @Test
-    public void shouldReturnGreeting() {
+    public void shouldReturnWeekOfYear() {
         Assert.assertNotNull(service.weekOfYear());
         Assert.assertEquals("" + Calendar.getInstance().get(Calendar.WEEK_OF_YEAR),
                 service.weekOfYear());
