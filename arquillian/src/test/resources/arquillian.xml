@@ -8,7 +8,7 @@
             <property name="executionType">MANAGED</property>
         </protocol>
         <configuration>
-            <property name="jbossHome">target/jboss-as-7.0.2.Final</property>
+            <property name="jbossHome">target/jboss-as-7.1.1.Final</property>
         </configuration>
     </container>
 </arquillian>

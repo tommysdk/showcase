@@ -74,7 +74,6 @@ public class DocumentServiceTest {
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getEntity());
         Assert.assertEquals(200, response.getStatus());
-        System.err.println(response.getEntity());
         Assert.assertTrue(((String) response.getEntity()).contains(content));
     }
 
