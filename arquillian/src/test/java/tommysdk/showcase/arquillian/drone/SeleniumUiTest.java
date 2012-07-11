@@ -35,11 +35,9 @@ public class SeleniumUiTest {
 
     @Deployment
     public static Archive createWebArchiveDeployment() {
-        Archive a = ShrinkWrap.create(WebArchive.class, "ui.war")
+        return ShrinkWrap.create(WebArchive.class, "ui.war")
                 .addAsWebResource(new StringAsset("<html><body><p>" + greeting + "</p></body></html>"), "index.html")
                 .setWebXML("web.xml");
-        a.writeTo(System.err, Formatters.VERBOSE);
-        return a;
     }
 
     @Test
