@@ -9,12 +9,10 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.formatter.Formatters;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.Assert.assertTrue;
@@ -32,20 +30,22 @@ public class SeleniumUiTest {
     URL contextPath;
 
     private final static String greeting = "Hello World!";
+    private final static String title = "UI test";
 
     @Deployment
     public static Archive createWebArchiveDeployment() {
         return ShrinkWrap.create(WebArchive.class, "ui.war")
-                .addAsWebResource(new StringAsset("<html><body><p>" + greeting + "</p></body></html>"), "index.html")
+                .addAsWebResource(new StringAsset("<html><head><title>" + title + "</title></head><body><p>" + greeting + "</p></body></html>"), "index.html")
                 .setWebXML("web.xml");
     }
 
     @Test
     @RunAsClient
-    public void importantElementsShouldBePresent() throws MalformedURLException {
+    public void importantElementsShouldBePresent() {
         driver.open(contextPath.toString());
         driver.waitForPageToLoad("3");
         assertTrue(driver.isTextPresent(greeting));
+        assertTrue(driver.getTitle().equals(title));
     }
 
 }
