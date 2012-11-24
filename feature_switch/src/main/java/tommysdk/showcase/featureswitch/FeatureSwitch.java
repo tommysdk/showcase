@@ -15,6 +15,8 @@
 */
 package tommysdk.showcase.featureswitch;
 
+import tommysdk.showcase.featureswitch.predicate.Feature;
+
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -40,9 +42,6 @@ public class FeatureSwitch {
 
     @AroundInvoke
     public Object intercept(final InvocationContext context) throws Exception {
-        if (featureManager == null) {
-            throw new IllegalStateException("No FeatureManager managed bean implementation found");
-        }
         if (isDisabled(context.getMethod())) {
             return null;
         }
@@ -55,6 +54,7 @@ public class FeatureSwitch {
             Class<? extends Predicate> predicateClass = a.value();
             String[] properties = a.feature();
             try {
+                validatePrerequisites(predicateClass);
                 return predicateClass.newInstance().with(featureManager).isDisabled(properties);
             } catch (InstantiationException | IllegalAccessException e) {
                 // TODO: Is throwing a runtime exception appropriate?
@@ -62,5 +62,13 @@ public class FeatureSwitch {
             }
         }
         else return false;
+    }
+
+    private void validatePrerequisites(final Class<? extends Predicate> predicateClass) {
+        if (Feature.class.equals(predicateClass)) {
+            if (featureManager == null) {
+                throw new IllegalStateException("No FeatureManager managed bean implementation found");
+            }
+        }
     }
 }
