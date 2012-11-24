@@ -15,6 +15,8 @@
 */
 package tommysdk.showcase.featureswitch;
 
+import tommysdk.showcase.featureswitch.predicate.Feature;
+
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,8 +32,12 @@ import java.lang.annotation.Target;
  * @author Tommy Tynj&auml;
  * @see FeatureSwitch
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ ElementType.METHOD, ElementType.TYPE, ElementType.FIELD, ElementType.LOCAL_VARIABLE })
 @Retention(RetentionPolicy.RUNTIME)
 @InterceptorBinding
 public @interface Disabled {
+
+    Class<? extends Predicate> value() default Feature.class;
+    String[] feature() default "";
+
 }

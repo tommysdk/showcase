@@ -15,9 +15,11 @@
 */
 package tommysdk.showcase.featureswitch;
 
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import java.lang.reflect.Method;
 
 /**
  * Interceptor for the <tt>@Disabled</tt> annotation. Works as a
@@ -33,10 +35,29 @@ import javax.interceptor.InvocationContext;
 @Disabled
 public class FeatureSwitch {
 
+    @Inject
+    private FeatureManager featureManager;
+
     @AroundInvoke
-    public Object intercept(InvocationContext context) throws Exception {
-        if (context.getMethod().isAnnotationPresent(Disabled.class))
+    public Object intercept(final InvocationContext context) throws Exception {
+        if (isDisabled(context.getMethod())) {
             return null;
+        }
         else return context.proceed();
+    }
+
+    public boolean isDisabled(final Method method) {
+        if (method.isAnnotationPresent(Disabled.class)) {
+            Disabled a = method.getAnnotation(Disabled.class);
+            Class<? extends Predicate> predicateClass = a.value();
+            String[] properties = a.feature();
+            try {
+                return predicateClass.newInstance().with(featureManager).isDisabled(properties);
+            } catch (InstantiationException | IllegalAccessException e) {
+                // TODO: Is throwing a runtime exception appropriate?
+                throw new IllegalStateException("Unable to instantiate @Disabled predicate: " + predicateClass.getName());
+            }
+        }
+        else return false;
     }
 }

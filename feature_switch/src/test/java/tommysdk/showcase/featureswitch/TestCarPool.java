@@ -24,6 +24,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import tommysdk.showcase.featureswitch.predicate.Feature;
+import tommysdk.showcase.featureswitch.predicate.FileBasedFeatureManager;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -39,6 +41,8 @@ public class TestCarPool {
         return ShrinkWrap.create(JavaArchive.class, "carpool.jar")
                 .addClass(CarPool.class)
                 .addClasses(Car.class, MercedesCLS250.class)
+                .addPackage(Feature.class.getPackage())
+                .addClass(FileBasedFeatureManager.class)
                 .addPackage(Disabled.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -68,5 +72,10 @@ public class TestCarPool {
     @Test
     public void bookCarInAdvanceShouldBeDisabled() {
         carPool.book(MercedesCLS250.class, new Date(), 2);
+    }
+
+    @Test
+    public void shouldInvokeFeatureManager() {
+        carPool.rentalCostPerDayFor(MercedesCLS250.class);
     }
 }

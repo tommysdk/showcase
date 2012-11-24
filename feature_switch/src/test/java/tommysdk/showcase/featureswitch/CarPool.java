@@ -1,5 +1,7 @@
 package tommysdk.showcase.featureswitch;
 
+import tommysdk.showcase.featureswitch.predicate.Always;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.interceptor.Interceptors;
@@ -37,14 +39,20 @@ public class CarPool {
     }
 
     // New feature which is not yet implemented
-    @Disabled
+    @Disabled(Always.class)
     public Car rentSpecific(final Class<? extends Car> makeAndModel) {
         throw new IllegalStateException("Method not implemented yet");
     }
 
     // New feature which is not yet implemented and will probably require some refactoring
-    @Disabled
+    @Disabled(Always.class)
     public void book(final Class<? extends Car> desiredCar, final Date startDate, final int days) {
+        throw new IllegalStateException("Method not implemented yet");
+    }
+
+    // New feature which is not yet implemented
+    @Disabled(feature = "rentalCost")
+    public Integer rentalCostPerDayFor(final Class<? extends Car> car) {
         throw new IllegalStateException("Method not implemented yet");
     }
 
