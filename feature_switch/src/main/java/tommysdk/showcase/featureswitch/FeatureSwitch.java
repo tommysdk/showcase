@@ -40,6 +40,9 @@ public class FeatureSwitch {
 
     @AroundInvoke
     public Object intercept(final InvocationContext context) throws Exception {
+        if (featureManager == null) {
+            throw new IllegalStateException("No FeatureManager managed bean implementation found");
+        }
         if (isDisabled(context.getMethod())) {
             return null;
         }

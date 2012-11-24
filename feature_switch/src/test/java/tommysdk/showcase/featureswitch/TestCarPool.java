@@ -24,6 +24,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import tommysdk.showcase.featureswitch.predicate.Always;
 import tommysdk.showcase.featureswitch.predicate.Feature;
 import tommysdk.showcase.featureswitch.predicate.FileBasedFeatureManager;
 
@@ -41,7 +42,7 @@ public class TestCarPool {
         return ShrinkWrap.create(JavaArchive.class, "carpool.jar")
                 .addClass(CarPool.class)
                 .addClasses(Car.class, MercedesCLS250.class)
-                .addPackage(Feature.class.getPackage())
+                .addClasses(Feature.class, Always.class)
                 .addClass(FileBasedFeatureManager.class)
                 .addPackage(Disabled.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
