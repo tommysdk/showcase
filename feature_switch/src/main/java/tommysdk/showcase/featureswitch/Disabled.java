@@ -15,7 +15,7 @@
 */
 package tommysdk.showcase.featureswitch;
 
-import tommysdk.showcase.featureswitch.predicate.Feature;
+import tommysdk.showcase.featureswitch.predicate.Always;
 
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.ElementType;
@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
 @InterceptorBinding
 public @interface Disabled {
 
-    Class<? extends Predicate> value() default Feature.class;
+    Class<? extends Predicate> value() default Always.class;
     String[] feature() default "";
 
 }
