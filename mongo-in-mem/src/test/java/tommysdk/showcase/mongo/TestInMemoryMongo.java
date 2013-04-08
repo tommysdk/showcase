@@ -14,8 +14,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static tommysdk.showcase.mongo.MongoPersistenceContext.DEFAULT_MONGO_COLLECTION;
 import static tommysdk.showcase.mongo.MongoPersistenceContext.DEFAULT_MONGO_DB;
 
@@ -30,7 +32,6 @@ public class TestInMemoryMongo {
 
     private MongodExecutable mongodExe;
     private MongodProcess mongod;
-    private Mongo mongo;
 
     /**
      * Start in-memory Mongo DB process
@@ -40,7 +41,6 @@ public class TestInMemoryMongo {
         MongodStarter runtime = MongodStarter.getDefaultInstance();
         mongodExe = runtime.prepare(new MongodConfig(Version.V2_0_5, MONGO_PORT, Network.localhostIsIPv6()));
         mongod = mongodExe.start();
-        mongo = new Mongo(MONGO_HOST, MONGO_PORT);
     }
 
     /**
@@ -58,14 +58,14 @@ public class TestInMemoryMongo {
     public void shouldAssertSave() {
         Mongo m = getMongoPersistenceContext().getConnection(IN_MEM_CONNECTION_URL);
         DBCollection c = m.getDB(DEFAULT_MONGO_DB).getCollection(DEFAULT_MONGO_COLLECTION);
-        long documentBefore = c.count();
+        long documentsBefore = c.count();
 
         DBObject dbo = toDocument(new Tuple("key", "value"));
+        assertNull(dbo.get("_id"));
         c.insert(dbo);
 
-        assertEquals(documentBefore + 1, c.count());
+        assertThat(c.count(), equalTo(documentsBefore + 1));
         assertNotNull(dbo.get("_id"));
-        System.out.println("id of saved document: " + dbo.get("_id"));
     }
 
     protected MongoPersistenceContext getMongoPersistenceContext() {
