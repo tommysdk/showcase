@@ -9,9 +9,8 @@ import java.util.Calendar;
 @Stateless
 public class WeekService {
 
-  public String weekOfYear() {
-      return Integer.toString(Calendar.getInstance()
-              .get(Calendar.WEEK_OF_YEAR));
+  public int weekOfYear() {
+      return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
   }
 
 }
