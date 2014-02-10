@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/main/java'
+    }
+  }
+}
+
+buildDir = 'target/gradle-build'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'junit:junit:4.10'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '0.9'
+}
