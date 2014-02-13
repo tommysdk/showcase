@@ -3,6 +3,7 @@ apply plugin: 'java'
 println '\n'
 println 'Build script runs unit tests located in src/test by default'
 println 'Run integration tests located in src/test-integration by executing \'gradle integrationTest\''
+println 'Run acceptance tests located in src/test-acceptance by executing \'gradle acceptanceTest\''
 println '\n'
 
 sourceCompatibility = 1.7
@@ -35,6 +36,15 @@ sourceSets {
     }
     compileClasspath += sourceSets.main.runtimeClasspath
   }
+  acceptanceTest {
+    java {
+      srcDir 'src/test-acceptance/java'
+    }
+    resources {
+      srcDir 'src/test-acceptance/resources'
+    }
+    compileClasspath += sourceSets.main.runtimeClasspath
+  }
 }
 
 println 'Source set output classes directories:'
@@ -49,6 +59,7 @@ repositories {
 dependencies {
   testCompile 'junit:junit:4.10'
   integrationTestCompile 'junit:junit:4.10'
+  acceptanceTestCompile 'junit:junit:4.10'
 }
 
 task wrapper(type: Wrapper) {
@@ -59,6 +70,16 @@ task integrationTest(type: Test) {
   description = "Runs integration tests"
   testClassesDir = sourceSets.integrationTest.output.classesDir
   classpath += sourceSets.test.runtimeClasspath + sourceSets.integrationTest.runtimeClasspath
+  useJUnit()
+  testLogging {
+    events "passed", "skipped", "failed"
+  }
+}
+
+task acceptanceTest(type: Test) {
+  description = "Runs acceptance tests"
+  testClassesDir = sourceSets.acceptanceTest.output.classesDir
+  classpath += sourceSets.test.runtimeClasspath + sourceSets.acceptanceTest.runtimeClasspath
   useJUnit()
   testLogging {
     events "passed", "skipped", "failed"

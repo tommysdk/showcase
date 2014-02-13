@@ -9,8 +9,12 @@
 
     <description>
         Build script runs unit tests located in src/test by default
+
         Run integration tests located in src/test-integration through the integrationTest profile by executing 'mvn verify -P integrationTest'
-        Integration tests are expected to be named on the format *IntegrationTest.java
+        Integration tests are run through the maven-failsafe-plugin and are expected to be named on the format *IntegrationTest.java
+
+        Acceptance tests located in src/test-acceptance are run by Gradle during the deploy phase, using the gradle-maven-plugin
+        See https://github.com/if6was9/gradle-maven-plugin for more information about the gradle-maven-plugin
     </description>
 
     <properties>
@@ -101,6 +105,24 @@
                                 <include>**/*IntegrationTest*.java</include>
                             </includes>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.fortasoft</groupId>
+                <artifactId>gradle-maven-plugin</artifactId>
+                <version>1.0.5</version>
+                <configuration>
+                    <tasks>
+                        <task>acceptanceTest</task>
+                    </tasks>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>invoke</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
