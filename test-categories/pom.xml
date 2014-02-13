@@ -11,7 +11,6 @@
         Build script runs unit tests located in src/test by default
         Run integration tests located in src/test-integration through the integrationTest profile by executing 'mvn verify -P integrationTest'
         Integration tests are expected to be named on the format *IntegrationTest.java
-        Integration tests will currently run unit tests as well
     </description>
 
     <properties>
@@ -29,7 +28,7 @@
             <id>integrationTest</id>
             <properties>
                 <build.profile.id>integration-test</build.profile.id>
-                <skip.unit.tests>false</skip.unit.tests>
+                <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
         </profile>
