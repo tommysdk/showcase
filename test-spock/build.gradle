@@ -1,0 +1,34 @@
+apply plugin: "java"
+apply plugin: "groovy"
+
+sourceCompatibility = 1.7
+
+repositories {
+  mavenCentral()
+  maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+  groovy "org.codehaus.groovy:groovy-all:1.8.6"
+  testCompile "org.spockframework:spock-core:0.6-groovy-1.8"
+  testCompile "org.hamcrest:hamcrest-core:1.3"
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/main/java'
+    }
+  }
+  test {
+    groovy {
+      srcDir 'src/test/groovy'
+    }
+  }
+}
+
+test {
+  testLogging {
+    events "passed", "skipped", "failed"
+  }
+}
