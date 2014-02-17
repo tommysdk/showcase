@@ -1,0 +1,8 @@
+<web-app>
+    <display-name>Togglz demonstration web-app</display-name>
+
+    <context-param>
+        <param-name>org.togglz.core.manager.TogglzConfig</param-name>
+        <param-value>tommysdk.showcase.togglz.ToggleConfiguration</param-value>
+    </context-param>
+</web-app>
