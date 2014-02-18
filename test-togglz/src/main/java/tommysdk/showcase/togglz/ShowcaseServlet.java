@@ -24,8 +24,10 @@ public class ShowcaseServlet extends HttpServlet {
         write("<h1>Showcase servlet</h1>", res);
 
         if (FeatureDefinition.APPLICATION_DESCRIPTION.isActive()) {
-            write("<p>Example application to demonstrate the use of feature flags using the togglz framework</p><br/>", res);
+            write("<p>Example application to demonstrate the use of feature flags using the togglz framework</p>", res);
         }
+
+        write("<p>Access the togglz admin console by adding /togglz to the application context path in the URL. Security has been disabled.</p>", res);
 
         if (FeatureDefinition.AUTHOR_NAME_IS_VISIBLE.isActive()) {
             write("<p>by Tommy Tynj&auml;</p>", res);

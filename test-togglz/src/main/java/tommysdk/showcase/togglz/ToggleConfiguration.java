@@ -4,8 +4,9 @@ import org.togglz.core.Feature;
 import org.togglz.core.manager.TogglzConfig;
 import org.togglz.core.repository.StateRepository;
 import org.togglz.core.repository.mem.InMemoryStateRepository;
+import org.togglz.core.user.FeatureUser;
+import org.togglz.core.user.SimpleFeatureUser;
 import org.togglz.core.user.UserProvider;
-import org.togglz.servlet.user.ServletUserProvider;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -24,7 +25,12 @@ public class ToggleConfiguration implements TogglzConfig {
     }
 
     public UserProvider getUserProvider() {
-        return new ServletUserProvider("togglz");
+        return new UserProvider() {
+            @Override
+            public FeatureUser getCurrentUser() {
+                return new SimpleFeatureUser("admin", true);
+            }
+        };
     }
 
 }
