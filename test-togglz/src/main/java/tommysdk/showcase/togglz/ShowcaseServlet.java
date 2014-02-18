@@ -19,7 +19,11 @@ public class ShowcaseServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse res) throws ServletException, IOException {
         LOG.info("Showcase servlet received request from " + req.getRemoteAddr());
+        writeHtml(res);
+        setHtmlContentTypeAndClose(res);
+    }
 
+    private void writeHtml(final HttpServletResponse res) throws IOException {
         write("<html><body>", res);
         write("<h1>Showcase servlet</h1>", res);
 
@@ -34,7 +38,6 @@ public class ShowcaseServlet extends HttpServlet {
         }
 
         write("</body></html>", res);
-        setHtmlContentTypeAndClose(res);
     }
 
     private void write(final String html, final HttpServletResponse response) throws IOException {
