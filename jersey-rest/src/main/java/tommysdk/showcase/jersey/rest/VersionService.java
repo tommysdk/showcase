@@ -5,19 +5,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("version")
+@Path(ContextPaths.VERSION)
 public class VersionService {
+
+    final static String VERSION = "1.0";
+    final static String VENDOR = "Tommy Tynjä";
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String get() {
-        return "1.0";
+        return VERSION;
     }
 
     @GET
-    @Path("vendor")
+    @Path(ContextPaths.VENDOR)
     @Produces(MediaType.TEXT_PLAIN + "; charset=UTF-8")
     public String getVendor() {
-        return "Tommy Tynjä";
+        return VENDOR;
     }
 }
