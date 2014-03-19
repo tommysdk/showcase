@@ -1,0 +1,24 @@
+55 	Bryan Allen 	D 	L 	33 	2012 	Kingston, Ontario
+31 	Frederik Andersen 	G 	L 	24 	2012 	Herning, Denmark
+23 	Francois Beauchemin 	D 	L 	33 	2011 	Sorel, Quebec
+39 	Matt Beleskey 	LW 	L 	25 	2006 	Windsor, Ontario
+13 	Nick Bonino 	C 	L 	25 	2009 	Hartford, Connecticut
+7 	Andrew Cogliano 	C 	L 	26 	2011 	Toronto, Ontario
+28 	Mark Fistric 	D 	L 	27 	2013 	Edmonton, Alberta
+4 	Cam Fowler 	D 	L 	22 	2010 	Windsor, Ontario
+15 	Ryan Getzlaf (C) 	C 	R 	28 	2003 	Regina, Saskatchewan
+1 	Jonas Hiller 	G 	R 	32 	2006 	Felben-Wellhausen, Switzerland
+18 	Tim Jackman 	RW 	R 	32 	2013 	Minot, North Dakota
+11 	Saku Koivu (A) 	C 	L 	39 	2009 	Turku, Finland
+47 	Hampus Lindholm 	D 	L 	20 	2012 	Helsingborg, Sweden
+6 	Ben Lovejoy 	D 	R 	30 	2013 	Concord, New Hampshire
+62 	Patrick Maroon 	LW 	L 	25 	2010 	St. Louis, Missouri
+21 	Kyle Palmieri 	RW 	R 	23 	2009 	Smithtown, New York
+22 	Mathieu Perreault 	C 	L 	26 	2013 	Drummondville, Quebec
+10 	Corey Perry 	RW 	R 	28 	2003 	Peterborough, Ontario
+19 	Stephane Robidas	D 	R 	37 	2014 	Sherbrooke, Quebec
+5 	Luca Sbisa 	D 	L 	24 	2009 	Ozieri, Italy
+8 	Teemu Selanne (A) 	RW 	R 	43 	2005 	Helsinki, Finland
+33 	Jakob Silfverberg 	RW 	R 	23 	2013 	Gävle, Sweden
+44 	Sheldon Souray 	D 	L 	37 	2012 	Elk Point, Alberta
+34 	Daniel Winnik 	LW 	L 	29 	2012 	Toronto, Ontario
