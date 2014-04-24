@@ -1,5 +1,6 @@
 package tommysdk.showcase.jersey.rest;
 
+import com.jayway.restassured.response.Response;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -37,19 +38,19 @@ public class VersionServiceTest {
     @Test
     public void shouldInvokeVersionRestService() {
         final String url = restServiceUrl + ContextPaths.VERSION;
-        String response = get(url).asString();
+        Response response = get(url);
 
-        assertThat(get(url).getStatusCode(), is(200));
-        assertThat(response, is(VersionService.VERSION));
+        assertThat(response.getStatusCode(), is(200));
+        assertThat(response.asString(), is(VersionService.VERSION));
     }
 
     @Test
     public void shouldInvokeVendorRestService() {
         final String url = restServiceUrl + ContextPaths.VERSION + ContextPaths.VENDOR;
-        String response = get(url).asString();
+        Response response = get(url);
 
-        assertThat(get(url).getStatusCode(), is(200));
-        assertThat(response, is(VersionService.VENDOR));
+        assertThat(response.getStatusCode(), is(200));
+        assertThat(response.asString(), is(VersionService.VENDOR));
     }
 
 }
