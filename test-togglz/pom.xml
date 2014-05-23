@@ -10,7 +10,14 @@
     <description>
         Example application to demonstrate the use of feature flags using the togglz framework.
         Run web-app using mvn tomcat7:run
+        Browse to: http://localhost:8080/test-togglz/
+        Togglz admin console available at: http://localhost:8080/test-togglz/togglz
     </description>
+
+    <properties>
+        <togglz-version>2.0.1.Final</togglz-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -22,12 +29,12 @@
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-servlet</artifactId>
-            <version>2.0.0.Final</version>
+            <version>${togglz-version}</version>
         </dependency>
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-console</artifactId>
-            <version>2.0.0.Final</version>
+            <version>${togglz-version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -38,13 +45,13 @@
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-testing</artifactId>
-            <version>2.0.0.Final</version>
+            <version>${togglz-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.togglz</groupId>
             <artifactId>togglz-junit</artifactId>
-            <version>2.0.0.Final</version>
+            <version>${togglz-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
