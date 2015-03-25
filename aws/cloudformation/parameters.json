@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "diabol"
+  },
+  {
+    "ParameterKey": "SystemDesignatedS3Folder",
+    "ParameterValue": "diabol-backend"
+  },
+  {
+    "ParameterKey": "AMI",
+    "ParameterValue": "ami-96a818fe"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "diabol-keypair"
+  }
+]

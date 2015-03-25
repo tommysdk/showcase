@@ -1,0 +1,200 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Diabol backend resources",
+  "Parameters": {
+    "S3BucketName": {
+      "Type": "String",
+      "Default": "diabol-services",
+      "Description": "The name of the S3 bucket designed for the system"
+    },
+    "SystemDesignatedS3Folder": {
+      "Type": "String",
+      "Default": "diabol-backend",
+      "Description": "The name of the S3 folder designated for system data"
+    },
+    "AMI": {
+      "Description": "AMI to use for EC2 instances",
+      "Type": "String"
+    },
+    "InstanceType": {
+      "AllowedValues": [
+        "t1.micro",
+        "t2.micro"
+      ],
+      "ConstraintDescription": "Must be a valid EC2 instance type",
+      "Default": "t1.micro",
+      "Description": "Type of EC2 instance to use",
+      "Type": "String"
+    },
+    "KeyName" : {
+      "Description" : "The EC2 Key Pair to allow SSH access to the instance",
+      "Type" : "AWS::EC2::KeyPair::KeyName"
+    }
+  },
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy" : "Retain",
+      "Properties": {
+        "AccessControl": "AuthenticatedRead",
+        "BucketName": { "Ref": "S3BucketName" },
+        "Tags": [
+          {
+            "Key": "Maintainer",
+            "Value": "Diabol"
+          }
+        ]
+      }
+    },
+    "S3FolderAccessPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": ["s3:GetObject"],
+              "Effect": "Allow",
+              "Resource": { "Fn::Join": ["",["arn:aws:s3:::",{ "Ref": "S3BucketName" },"/*"]] }
+            }
+          ]
+        },
+        "PolicyName": {
+          "Fn::Join": ["",["Access-for-",{ "Ref": "S3BucketName" },"-",{ "Ref": "SystemDesignatedS3Folder" }]]
+        },
+        "Roles": [{ "Ref": "Role" }]
+      }
+    },
+    "CloudformationDescribePolicy" : {
+      "Type" : "AWS::IAM::Policy",
+      "Properties" : {
+        "PolicyName" : "CloudformationDescribePolicy",
+        "PolicyDocument" : {
+          "Statement": [
+            {
+              "Action": [
+                "cloudformation:Describe*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ]
+        },
+        "Roles": [
+          { "Ref": "Role" }
+        ]
+      }
+    },
+    "Role": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Path": "/"
+      }
+    },
+    "SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Port availability configuration",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "10.0.0.0/8",
+            "FromPort": "22",
+            "ToPort": "22",
+            "IpProtocol": "tcp"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Maintainer",
+            "Value": "Diabol"
+          }
+        ]
+      }
+    },
+    "InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [{ "Ref": "S3BucketAccessRole" }]
+      }
+    },
+    "DiabolBackendEc2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "IamInstanceProfile": {
+          "Ref": "InstanceProfile"
+        },
+        "ImageId": {
+          "Ref": "AMI"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "SecurityGroupIds": [{ "Ref": "SecurityGroup" }],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "\n",
+              [
+                "#cloud-config",
+                "",
+                "# Add users to the system. Users are added after groups are added.",
+                "users:",
+                "  - name: tommy.tynja",
+                "    sudo: ALL=(ALL) NOPASSWD:ALL",
+                "    groups: users",
+                "    lock-passwd: true",
+                "    ssh-authorized-keys:",
+                "    - ssh-rsa THE_PUBLIC_KEY",
+                "",
+                "ca-certs:",
+                "  trusted:",
+                "  - |",
+                "    -----BEGIN CERTIFICATE-----",
+                "    CERTIFICATE...",
+                "    -----END CERTIFICATE-----",
+                "",
+                "runcmd:",
+                "  my_bootstrap_script.sh",
+                "",
+                "final_message: \"AWS EC2 instance bootstrapped (duration $UPTIME seconds)\"",
+                "",
+                "output: {all: '| tee -a /var/log/cloud-init-output.log'}"
+              ]
+            ]
+          }
+        },
+        "Tags": [
+          {
+            "Key": "Maintainer",
+            "Value": "Diabol"
+          }
+        ]
+      }
+    }
+  }
+}
