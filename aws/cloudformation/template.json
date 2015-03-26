@@ -1,6 +1,12 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Diabol backend resources",
+  "Outputs": {
+    "IpAddress" : {
+      "Description": "The IP address of the EC2 instance",
+      "Value": { "Fn::GetAtt": [ "DiabolBackendEc2Instance", "PrivateIp"]}
+    }
+  },
   "Parameters": {
     "S3BucketName": {
       "Type": "String",
